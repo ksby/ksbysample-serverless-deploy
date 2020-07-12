@@ -1,0 +1,20 @@
+{
+  "Records": [
+    {
+      "messageId": "6d0b2760-012a-4ddf-b34f-0f05dda53cbf",
+      "receiptHandle": "AQEBp7map2/I0l8XkLAa2F9JHSNwZgyw+d2ZTNEjrfsfYlf+6OsNz+dng+9twe/uwCx4lpMmAw67HpxD4IxKJRDAkSsgov/nkscqUvkoVWSwxiaunzCvEOr7TKdK1m9sIDYJTAs2QBNP/4C4FkKGcCMj+Uf6oN4acu4PVIXUW4hY9tKtCbSv9tx4mD44HIFryYIv3m6xsc8BnT2HWv+LTo0nBzrcPMaWVPsP1OujrK5DsuCCnVsnZTzhdgTm7E7Kb5mA81ymDLdCMR+MBowma9K1e6xHx09DJg9PVZHyXBX6wtO1i2+6/NfDqx1bIT9/n2l7nTUK7mABaHVd2BI0sQ2wIkTV0UWsSXX6zJA1cw7NbQqgX+25/D/In+W5C5ozudXjIrxIWLmpwJB5pBFQzxo+zQ==",
+      "body": "これはテストです",
+      "attributes": {
+        "ApproximateReceiveCount": "79",
+        "SentTimestamp": "1594204658558",
+        "SenderId": "AROAWQAH6U6ZRASDVPZZ6:sample-service-dev-hello",
+        "ApproximateFirstReceiveTimestamp": "1594204658558"
+      },
+      "messageAttributes": {},
+      "md5OfBody": "3e1189533149d5b129aa1f6211876962",
+      "eventSource": "aws:sqs",
+      "eventSourceARN": "arn:aws:sqs:ap-northeast-1:446693287859:sample-queue-dev",
+      "awsRegion": "ap-northeast-1"
+    }
+  ]
+}
