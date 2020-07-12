@@ -1,0 +1,46 @@
+service: image-service
+
+custom: ${file(../../stages/${env:STAGE}/custom-services.yml)}
+
+provider:
+  name: aws
+  runtime: python3.8
+  stage: ${env:STAGE}
+  region: ${env:AWS_DEFAULT_REGION}
+  environment:
+    # aws-lambda-powertools 用環境変数
+    LOG_LEVEL: DEBUG
+    POWERTOOLS_LOGGER_LOG_EVENT: false
+    POWERTOOLS_METRICS_NAMESPACE: serverless-deploytest-project
+    POWERTOOLS_SERVICE_NAME: image-service
+  tracing:
+    lambda: true
+
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - s3:GetObject
+      Resource:
+        - "arn:aws:s3:::${self:custom.uploadBucketName}/*"
+    - Effect: Allow
+      Action:
+        - s3:PutObject
+      Resource:
+        - "arn:aws:s3:::${self:custom.resizeBucketName}/*"
+
+functions:
+  resize:
+    handler: s3_handler.resize
+    environment:
+      RESIZE_BUCKET_NAME: ${self:custom.resizeBucketName}
+    events:
+      - s3: ${self:custom.uploadBucketName}
+    layers:
+      - ${cf:shared-package-layer-${env:STAGE}.SharedPackageLayer}
+
+resources:
+  Resources:
+    KsbysampleResizeBucket:
+      Type: AWS::S3::Bucket
+      Properties:
+        BucketName: ${self:custom.resizeBucketName}
