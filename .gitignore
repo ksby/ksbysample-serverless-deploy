@@ -1,0 +1,23 @@
+# Intellij project files
+*.iml
+*.ipr
+*.iws
+.idea/
+out/
+
+# Ignore direnv
+.envrc
+
+# Ignore node.js, npm
+node_modules/
+
+# Ignore Python venv
+venv/
+
+# Ignore Python unittest
+__pycache__/
+
+# Ignore terraform
+.terraform/
+terraform.tfstate*
+terraform.tfvars
