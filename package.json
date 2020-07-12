@@ -1,0 +1,23 @@
+{
+  "name": "ksbysample-serverless-deploy",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ksby/ksbysample-serverless-deploy.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ksby/ksbysample-serverless-deploy/issues"
+  },
+  "homepage": "https://github.com/ksby/ksbysample-serverless-deploy#readme",
+  "devDependencies": {
+    "serverless": "^1.74.1"
+  }
+}
