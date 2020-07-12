@@ -4,7 +4,25 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "deploy-service": "per-env",
+    "deploy-service:development": "cross-env-shell \"cd $SERVICE_DIR && aws-vault exec $AWS_PROFILE -- bash -c \\\"npx sls deploy -v\\\"\"",
+    "deploy-service:ci": "cross-env-shell \"cd $SERVICE_DIR && npx sls deploy -v\"",
+    "remove-service": "per-env",
+    "remove-service:development": "cross-env-shell \"cd $SERVICE_DIR && aws-vault exec $AWS_PROFILE -- bash -c \\\"npx sls remove -v\\\"\"",
+    "remove-service:ci": "cross-env-shell \"cd $SERVICE_DIR && npx sls remove -v\"",
+    "deploy:shared-package-layer": "cross-env SERVICE_DIR=layers/shared_package_layer run-s deploy-service",
+    "remove:shared-package-layer": "cross-env SERVICE_DIR=layers/shared_package_layer run-s remove-service",
+    "deploy:image-service": "cross-env SERVICE_DIR=services/image_service run-s deploy-service",
+    "remove:image-service": "cross-env SERVICE_DIR=services/image_service run-s remove-service",
+    "deploy:sample-service": "cross-env SERVICE_DIR=services/sample_service run-s deploy-service",
+    "remove:sample-service": "cross-env SERVICE_DIR=services/sample_service run-s remove-service",
+    "deploy:layers": "run-p deploy:shared-package-layer",
+    "remove:layers": "run-p remove:shared-package-layer",
+    "deploy:services": "run-s deploy:image-service deploy:sample-service",
+    "remove:services": "run-s remove:image-service remove:sample-service",
+    "deploy:all": "run-s deploy:layers deploy:services",
+    "remove:all": "run-s remove:services remove:layers"
   },
   "repository": {
     "type": "git",
