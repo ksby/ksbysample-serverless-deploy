@@ -1,0 +1,20 @@
+service: shared-package-layer
+
+plugins:
+  - serverless-python-requirements
+
+custom: ${file(../../stages/${env:STAGE}/custom-shared-package-layer.yml)}
+
+provider:
+  name: aws
+  runtime: python3.8
+  stage: ${env:STAGE}
+  region: ${env:AWS_DEFAULT_REGION}
+
+resources:
+  Outputs:
+    # 他の Stack から Lambda Layer を参照できるようにする
+    # Value に記載している "PythonRequirementsLambdaLayer" はこの文字列固定である
+    SharedPackageLayer:
+      Value:
+        Ref: PythonRequirementsLambdaLayer
