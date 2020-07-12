@@ -18,6 +18,9 @@
   },
   "homepage": "https://github.com/ksby/ksbysample-serverless-deploy#readme",
   "devDependencies": {
+    "cross-env": "^7.0.2",
+    "npm-run-all": "^4.1.5",
+    "per-env": "^1.0.2",
     "serverless": "^1.74.1",
     "serverless-python-requirements": "^5.1.0"
   }
