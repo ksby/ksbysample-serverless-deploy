@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/ksby/ksbysample-serverless-deploy#readme",
   "devDependencies": {
-    "serverless": "^1.74.1"
+    "serverless": "^1.74.1",
+    "serverless-python-requirements": "^5.1.0"
   }
 }
