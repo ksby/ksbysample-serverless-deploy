@@ -1,0 +1,4 @@
+queueName: "sample-queue-${env:STAGE}"
+tableName: "sample-table-${env:STAGE}"
+uploadBucketName: "ksbysample-upload-bucket-${env:STAGE}"
+resizeBucketName: "ksbysample-resize-bucket-${env:STAGE}"

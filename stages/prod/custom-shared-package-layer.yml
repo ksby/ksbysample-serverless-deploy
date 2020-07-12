@@ -1,0 +1,14 @@
+pythonRequirements:
+  # dockerizePip: true
+  fileName: ../../requirements.txt
+  noDeploy:
+    - aws-lambda-context
+    - boto3
+    - moto
+  useStaticCache: true
+  useDownloadCache: true
+  cacheLocation: /root/project/.cache
+  staticCacheMaxVersions: 3
+  layer:
+    name: "shared-package-layer-${env:STAGE}"
+    description: 共通パッケージ用 Lambda Layer
