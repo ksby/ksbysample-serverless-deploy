@@ -1,0 +1,79 @@
+service: sample-service
+
+custom: ${file(../../stages/${env:STAGE}/custom-services.yml)}
+
+provider:
+  name: aws
+  runtime: python3.8
+  stage: ${env:STAGE}
+  region: ${env:AWS_DEFAULT_REGION}
+  environment:
+    # aws-lambda-powertools 用環境変数
+    LOG_LEVEL: INFO
+    POWERTOOLS_LOGGER_LOG_EVENT: false
+    POWERTOOLS_METRICS_NAMESPACE: serverless-deploytest-project
+    POWERTOOLS_SERVICE_NAME: sample-service
+    # service 固有の設定
+    QUEUE_URL: !Ref SampleQueue
+    TABLE_NAME: ${self:custom.tableName}
+  tracing:
+    apiGateway: true
+    lambda: true
+
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - sqs:*
+      Resource:
+        - Fn::GetAtt: [ SampleQueue, Arn ]
+    - Effect: Allow
+      Action:
+        - dynamodb:Query
+        - dynamodb:Scan
+        - dynamodb:GetItem
+        - dynamodb:PutItem
+        - dynamodb:UpdateItem
+        - dynamodb:DeleteItem
+      Resource:
+        - Fn::GetAtt: [ SampleTable, Arn ]
+
+functions:
+  hello:
+    handler: apigw_handler.hello
+    events:
+      - http:
+          path: hello
+          method: get
+          cors: true
+    layers:
+      - ${cf:shared-package-layer-${env:STAGE}.SharedPackageLayer}
+
+  saveTable:
+    handler: sqs_handler.save_table
+    events:
+      - sqs:
+          arn:
+            Fn::GetAtt: [ SampleQueue, Arn ]
+    layers:
+      - ${cf:shared-package-layer-${env:STAGE}.SharedPackageLayer}
+
+resources:
+  Resources:
+    SampleQueue:
+      Type: AWS::SQS::Queue
+      Properties:
+        QueueName: "${self:custom.queueName}"
+
+    SampleTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: "${self:custom.tableName}"
+        AttributeDefinitions:
+          - AttributeName: timestamp
+            AttributeType: S
+        KeySchema:
+          - AttributeName: timestamp
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
