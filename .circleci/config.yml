@@ -3,8 +3,38 @@ jobs:
   deploy:
     docker:
       - image: lambci/lambda:build-python3.8
+    environment:
+      AWS_DEFAULT_REGION: ap-northeast-1
+      STAGE: prod
+      LOG_LEVEL: ERROR
+      POWERTOOLS_TRACE_DISABLED: true
+      NODE_PATH: /opt/nodejs/node12/node_modules:/opt/nodejs/node_modules:/var/runtime/node_modules
     steps:
       - checkout
+      - run:
+          name: install nodejs12.x
+          command: curl https://lambci.s3.amazonaws.com/fs/nodejs12.x.tgz | tar -zx -C /
+      - run: node -v
+      - run: npm -v
+
+      # Caching Dependencies
+      # https://circleci.com/docs/2.0/caching/
+      - restore_cache:
+          keys:
+            - asset-cache-v1-{{ arch }}-{{ .Branch }}-{{ .Environment.CIRCLE_SHA1 }}
+            - asset-cache-v1-{{ arch }}-{{ .Branch }}
+            - asset-cache-v1
+      - run: npm ci
+      - run: pip install -r requirements.txt
+      - run: python -m unittest -v
+      - run: NODE_ENV=ci npm run deploy:all
+      - save_cache:
+          key: asset-cache-v1-{{ arch }}-{{ .Branch }}-{{ .Environment.CIRCLE_SHA1 }}
+          paths:
+            # https://docs.npmjs.com/cli/ci#example
+            - $HOME/.npm
+            - /var/lang/lib/python3.8
+            - /root/project/.cache
 workflows:
   version: 2
   deploy:
