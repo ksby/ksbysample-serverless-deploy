@@ -12,4 +12,4 @@ workflows:
       - deploy:
           filters:
             branches:
-              only: masterx
+              only: master
