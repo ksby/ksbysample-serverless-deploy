@@ -38,7 +38,6 @@ jobs:
             - ~/project/layers/shared_package_layer/.serverless
             - /root/project/servies/image_service/.serverless
             - /root/project/servies/sample_service/.serverless
-
 workflows:
   version: 2.1
   deploy:
