@@ -1,0 +1,15 @@
+version: 2
+jobs:
+  deploy:
+    docker:
+      - image: lambci/lambda:build-python3.8
+    steps:
+      - checkout
+workflows:
+  version: 2
+  deploy:
+    jobs:
+      - deploy:
+          filters:
+            branches:
+              only: master
