@@ -35,7 +35,6 @@ jobs:
             - $HOME/.npm
             - /var/lang/lib/python3.8
             - /root/project/.cache
-
 workflows:
   version: 2
   deploy:
